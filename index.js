@@ -11,7 +11,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 
-const express = __importDefault(require('Express'));
+const express = __importDefault(require('express'));
 const xlsx = __importDefault(require("xlsx"));
 const bodyParser = __importDefault(require('body-parser'));
 const path = __importDefault(require('path'));
