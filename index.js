@@ -19,7 +19,7 @@ const dotenv = require('dotenv');
 const stringSimilarity = require("string-similarity");
 const jsonParser = bodyParser.json();
 
-const app = express;
+const app = express();
 
 const workbook = xlsx.readFile('./build/data/liste_prénoms_arabo-musulmans.xlsx');
 const sheet_name_list = workbook.SheetNames;
