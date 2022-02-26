@@ -21,9 +21,9 @@ const jsonParser = bodyParser.default.json();
 
 const app = express.default();
 
-const workbook = xlsx.readFile('./build/data/liste_prénoms_arabo-musulmans.xlsx');
+const workbook = xlsx.default.readFile('./build/data/liste_prénoms_arabo-musulmans.xlsx');
 const sheet_name_list = workbook.SheetNames;
-const listname = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]], {header: 1}).map((items) => {
+const listname = xlsx.default.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]], {header: 1}).map((items) => {
     return items[0].trim()
 });
 
