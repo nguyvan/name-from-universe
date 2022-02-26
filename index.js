@@ -27,7 +27,7 @@ const listname = xlsx.default.utils.sheet_to_json(workbook.Sheets[sheet_name_lis
     return items[0].trim()
 });
 
-dotenv.config()
+dotenv.default.config()
 
 app.get('/',function(req,res){
     res.sendFile(path.join(__dirname + '/index.html'));
