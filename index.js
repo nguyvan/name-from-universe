@@ -1,4 +1,4 @@
-import express from 'express';
+import { express } from 'express';
 import { readFile, utils } from "xlsx";
 import { json } from 'body-parser';
 import { join } from 'path';
