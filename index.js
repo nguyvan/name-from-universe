@@ -1,23 +1,36 @@
-import { express } from 'express';
-import { readFile, utils } from "xlsx";
-import { json } from 'body-parser';
-import { join } from 'path';
-import { config } from 'dotenv';
-import { compareTwoStrings } from "string-similarity";
-const jsonParser = json();
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+
+const express = __importDefault(require('express'));
+const xlsx = __importDefault(require("xlsx"));
+const bodyParser = __importDefault(require('body-parser'));
+const path = __importDefault(require('path'));
+const dotenv = __importDefault(require('dotenv'));
+const stringSimilarity = __importDefault(require("string-similarity"));
+const jsonParser = bodyParser.json();
 
 const app = express();
 
-const workbook = readFile('./build/data/liste_prénoms_arabo-musulmans.xlsx');
+const workbook = xlsx.readFile('./build/data/liste_prénoms_arabo-musulmans.xlsx');
 const sheet_name_list = workbook.SheetNames;
-const listname = utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]], {header: 1}).map((items) => {
+const listname = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]], {header: 1}).map((items) => {
     return items[0].trim()
 });
 
-config()
+dotenv.config()
 
 app.get('/',function(req,res){
-    res.sendFile(join(__dirname + '/index.html'));
+    res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 app.post('/find', jsonParser, function(req, res){
@@ -31,10 +44,10 @@ app.post('/find', jsonParser, function(req, res){
     }
     else {
         let argstr = listname[0];
-        let max = compareTwoStrings(name.toLowerCase(), listname[0].toLowerCase());
+        let max = stringSimilarity.compareTwoStrings(name.toLowerCase(), listname[0].toLowerCase());
         listname.forEach((n) => {
-            if (compareTwoStrings(name.toLowerCase(), n.toLowerCase()) > max) {
-                max = compareTwoStrings(name.toLowerCase(), n.toLowerCase())
+            if (stringSimilarity.compareTwoStrings(name.toLowerCase(), n.toLowerCase()) > max) {
+                max = stringSimilarity.compareTwoStrings(name.toLowerCase(), n.toLowerCase())
                 argstr = n
             }
         })
