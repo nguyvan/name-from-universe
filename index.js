@@ -19,7 +19,7 @@ const dotenv = __importDefault(require('dotenv'));
 const stringSimilarity = __importDefault(require("string-similarity"));
 const jsonParser = bodyParser.default.json();
 
-const app = express();
+const app = express.default();
 
 const workbook = xlsx.readFile('./build/data/liste_prénoms_arabo-musulmans.xlsx');
 const sheet_name_list = workbook.SheetNames;
