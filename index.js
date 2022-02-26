@@ -17,7 +17,7 @@ const bodyParser = __importDefault(require('body-parser'));
 const path = __importDefault(require('path'));
 const dotenv = __importDefault(require('dotenv'));
 const stringSimilarity = __importDefault(require("string-similarity"));
-const jsonParser = bodyParser.json();
+const jsonParser = bodyParser.default.json();
 
 const app = express();
 
