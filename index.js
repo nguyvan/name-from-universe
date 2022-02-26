@@ -61,7 +61,7 @@ app.post('/find', jsonParser, function(req, res){
 
 
 //add the router
-app.use(express.static(__dirname));
+app.use(express.default.static(__dirname));
 
 app.listen(process.env.port, function(){
     console.log(`Api up and running at: http://${process.env.host}:${process.env.port}`);
