@@ -8,14 +8,14 @@
 }
 
 .header-item{
-    height: 10vh;
+    height: 20vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .header-item-image{
-    height: 10vh;
+    height: 20vh;
 }
 
 .header-item-text{
@@ -23,9 +23,9 @@
     text-align: center;
     font-size: x-large; 
     font-family: 'Open Sans', sans-serif; 
-    font-weight: 900;
+    font-weight: 300px;
     word-spacing: 0.1vw;
-    letter-spacing: 0.05vw;
+    letter-spacing: 0.0;
 }
 
 .body{
