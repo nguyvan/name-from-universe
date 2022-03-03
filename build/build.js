@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     document.querySelector("#first-name").addEventListener('keypress', function(event) {
         if (event.key == "Enter") {
-            fetch('http://localhost:5000/find', {
+            fetch('https://name-from-multiverse.herokuapp.com/find', {
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 mode: 'cors', // no-cors, *cors, same-origin
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
