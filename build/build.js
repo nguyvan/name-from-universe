@@ -40,7 +40,7 @@ $(document).ready(function() {
                 }
                 else {
                     document.getElementById("bottom-result-1").innerHTML = "This first name is not arabized !"
-                    document.getElementById("bottom-result-2").innerHTML = "Your altenative first name will be : "
+                    document.getElementById("bottom-result-2").innerHTML = "Your alternative first name will be : "
                     document.getElementById("bottom-result-3").innerHTML = data.name
                 }
             }).catch(error => console.log(error))
