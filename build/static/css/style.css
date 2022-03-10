@@ -170,3 +170,11 @@ footer{
     color: #5561d9;
     padding-left: 0.5vw;
 }
+
+#button-search{
+    margin-left: 0.5vw;
+    height: 7vh;
+    width: 10vw;
+    border-radius: 5em;
+    background-color: #5561d9;
+}
