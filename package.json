@@ -16,16 +16,18 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "nodemon": "^2.0.15",
+    "sqlite3": "^5.0.2",
     "string-similarity": "^4.0.4",
     "xlsx": "^0.18.2"
   },
   "dependencies": {
     "babel": "^6.23.0",
+    "body-parser": "*",
     "dotenv": "^16.0.0",
-    "express":"*",
-    "body-parser":"*",
+    "express": "*",
     "nodemon": "^2.0.15",
+    "socket.io": "^4.4.1",
     "string-similarity": "^4.0.4",
     "xlsx": "^0.18.2"
- }
+  }
 }

@@ -12,6 +12,7 @@
 <script type="text/javascript" src="http://cdn.grapecity.com/spreadjs/hosted/scripts/interop/gc.spread.excelio.14.1.1.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="./build/build.js"></script>
 </head>
 <body data-alreadt="162212176"></body>
@@ -43,15 +44,8 @@
     </div>
     <div class="bottom">
         <div class="numbers">
-            <span class="number-window">
-                <span class="number-window-item" data-val="161">000</span>
-            </span>
-            <span class="number-window">
-                <span class="number-window-item" data-val="781">000</span>
-            </span>
-            <span class="number-window">
-                <span class="number-window-item" data-val="590">000</span>
-            </span>
+            <div id="numbers">
+            </div>
             <span style="font-size: large">names have already been obtained.</span>
         </div>
     </div>

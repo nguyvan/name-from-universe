@@ -1,25 +1,40 @@
-// "use strict";
-// var __importDefault = (this && this.__importDefault) || function (mod) {
-//     return (mod && mod.__esModule) ? mod : { "default": mod };
-// };
-// var __importStar = (this && this.__importStar) || function (mod) {
-//     if (mod && mod.__esModule) return mod;
-//     var result = {};
-//     if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-//     result["default"] = mod;
-//     return result;
-// };
-// Object.defineProperty(exports, "__esModule", { value: true });
-
 const express = require('express');
+const http = require('http');
 const xlsx = require("xlsx");
 const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv');
+const sqlite3 = require('sqlite3');
 const stringSimilarity = require("string-similarity");
+
 const jsonParser = bodyParser.json();
 
+const db = new sqlite3.Database("./server.db", (error) => {
+    if (error) {
+        console.log('Could not connect to database', error)
+    } else {
+        console.log('Connected to database')
+    }
+})
+
+const getNumberName = (req, res, next) => {
+    db.get("SELECT number_name FROM username", (error, result) => {
+        if (error) {
+            return res.status(200).json({
+                success: false,
+                error: error
+            });
+        }
+        else {
+            req.number_name = result.number_name
+            return next()
+        }
+    })
+}
+
 const app = express();
+const server = http.createServer(app);
+var io = require("socket.io")(server);
 
 const workbook = xlsx.readFile('./build/data/liste_prénoms_arabo-musulmans.xlsx');
 const sheet_name_list = workbook.SheetNames;
@@ -32,6 +47,13 @@ dotenv.config()
 app.get('/',function(req,res){
     res.sendFile(path.join(__dirname + '/index.html'));
 });
+
+app.get('/number', getNumberName, function(req, res) {
+    res.status(200).json({
+        success: true,
+        number: req.number_name
+    });
+})
 
 app.post('/find', jsonParser, function(req, res){
     let req_body = req.body;
@@ -63,7 +85,28 @@ app.post('/find', jsonParser, function(req, res){
 //add the router
 app.use(express.static(__dirname));
 
-app.listen(process.env.PORT, function(){
+io.on("connection", function(socket)
+	{
+        console.log('Socket succesfully connected with id: '+socket.id);
+		socket.on("disconnect", function() {
+            console.log('Socket succesfully disconnected with id: ' + socket.id);
+        });
+		socket.on('search', function(msg) {
+            let sql = `UPDATE username
+                       SET number_name = ?`;
+            db.run(sql, [msg + 1], function(err) {
+                if (err) {
+                    return console.error(err.message);
+                }
+                else {
+                    io.emit("disfuse", msg + 1);
+                }
+            })
+        });
+	}
+);
+
+server.listen(process.env.PORT, function(){
     console.log(`Api up and running at: http://${process.env.HOST}:${process.env.PORT}`);
 });
 
