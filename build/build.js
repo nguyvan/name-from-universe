@@ -20,7 +20,6 @@ $(document).ready(function() {
     }).then(response => response.json()).then(data => {
         if (data.success) {
             number = data.number; 
-            let str = "";
             if (number === 0) {
                 const element_numbers = document.getElementById("numbers");
                 const childElement = document.createElement("span")

@@ -4,32 +4,73 @@ const xlsx = require("xlsx");
 const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv');
-const sqlite3 = require('sqlite3');
+// const sqlite3 = require('sqlite3');
+const lowdb = require('lowdb')
+const lodash = require("lodash")
+class LowWithLodash extends lowdb.LowSync {
+    constructor() {
+        super(...arguments);
+        this.chain = lodash.chain(this).get('data');
+    }
+}
+
+class DBManager {
+    constructor() {
+        const adapter = new lowdb.JSONFileSync('db.json')
+        this.db = new LowWithLodash(adapter);
+    }
+
+    read() {
+        this.db.read();
+        if (this.db.data == {}) {
+            return { number_name: 0 };
+        }
+        // return this.db.get("username").value().number_name
+        return this.db.data
+    }
+
+    update(value) {
+        let data = this.read();
+        data.number_name = value;
+        this.db.write();
+        // this.db.get('username')
+        // .find({ id: 0 })
+        // .assign({ number_name: value})
+        // .write()
+        return value
+    }
+}
+
 const stringSimilarity = require("string-similarity");
 
 const jsonParser = bodyParser.json();
+const dbManager = new DBManager();
+// const db = new sqlite3.Database("./server.db", (error) => {
+//     if (error) {
+//         console.log('Could not connect to database', error)
+//     } else {
+//         console.log('Connected to database')
+//     }
+// })
 
-const db = new sqlite3.Database("./server.db", (error) => {
-    if (error) {
-        console.log('Could not connect to database', error)
-    } else {
-        console.log('Connected to database')
-    }
-})
+// const getNumberName = (req, res, next) => {
+//     db.get("SELECT number_name FROM username", (error, result) => {
+//         if (error) {
+//             return res.status(200).json({
+//                 success: false,
+//                 error: error
+//             });
+//         }
+//         else {
+//             req.number_name = result.number_name
+//             return next()
+//         }
+//     })
+// }
 
 const getNumberName = (req, res, next) => {
-    db.get("SELECT number_name FROM username", (error, result) => {
-        if (error) {
-            return res.status(200).json({
-                success: false,
-                error: error
-            });
-        }
-        else {
-            req.number_name = result.number_name
-            return next()
-        }
-    })
+    req.number_name = dbManager.read().number_name;
+    return next();
 }
 
 const app = express();
@@ -85,23 +126,28 @@ app.post('/find', jsonParser, function(req, res){
 //add the router
 app.use(express.static(__dirname));
 
+
+
 io.on("connection", function(socket)
 	{
-        console.log('Socket succesfully connected with id: '+socket.id);
+        console.log('Socket succesfully connected with id: ' + socket.id);
 		socket.on("disconnect", function() {
             console.log('Socket succesfully disconnected with id: ' + socket.id);
         });
 		socket.on('search', function(msg) {
-            let sql = `UPDATE username
-                       SET number_name = ?`;
-            db.run(sql, [msg + 1], function(err) {
-                if (err) {
-                    return console.error(err.message);
-                }
-                else {
-                    io.emit("disfuse", msg + 1);
-                }
-            })
+            // const sql = `UPDATE username
+            //              SET number_name = ?`;
+            // db.run(sql, [msg + 1], function(err) {
+            //     if (err) {
+            //         return console.error(err.message);
+            //     }
+            //     else {
+            //         io.emit("disfuse", msg + 1);
+            //     }
+            // })
+            // const value = dbManager.update(msg + 1);
+            dbManager.update(msg + 1);
+            io.emit("disfuse", msg+1);
         });
 	}
 );
