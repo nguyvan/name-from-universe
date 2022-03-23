@@ -6,6 +6,8 @@ const path = require('path');
 const dotenv = require('dotenv');
 
 const AWS = require("aws-sdk");
+const jsonParser = bodyParser.json()
+
 dotenv.config()
 
 let AWSConfig = {
