@@ -6,7 +6,7 @@ $(document).ready(function() {
     let i = 0;
     var number = 0;
     var socket = io("https://name-from-the-multiverse.herokuapp.com");
-    fetch('https://name-from-the-multiverse.herokuapp.com/number', {
+    fetch('https://name-from-the-multiverse.herokuapp.com', {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

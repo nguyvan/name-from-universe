@@ -4,73 +4,37 @@ const xlsx = require("xlsx");
 const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv');
-// const sqlite3 = require('sqlite3');
-const lowdb = require('lowdb')
-const lodash = require("lodash")
-class LowWithLodash extends lowdb.LowSync {
-    constructor() {
-        super(...arguments);
-        this.chain = lodash.chain(this).get('data');
-    }
+
+const AWS = require("aws-sdk");
+dotenv.config()
+
+let AWSConfig = {
+    "region": process.env.REGION,
+    "endpoint": process.env.ENDPOINT,
+    "accessKeyId": process.env.ACCESSKEYID,
+    "secretAccessKey": process.env.SECRETACCESSKEY
 }
 
-class DBManager {
-    constructor() {
-        const adapter = new lowdb.JSONFileSync('db.json')
-        this.db = new LowWithLodash(adapter);
-    }
+AWS.config.update(AWSConfig)
 
-    read() {
-        this.db.read();
-        if (this.db.data == {}) {
-            return { number_name: 0 };
-        }
-        // return this.db.get("username").value().number_name
-        return this.db.data
-    }
-
-    update(value) {
-        let data = this.read();
-        data.number_name = value;
-        this.db.write();
-        // this.db.get('username')
-        // .find({ id: 0 })
-        // .assign({ number_name: value})
-        // .write()
-        return value
-    }
-}
-
-const stringSimilarity = require("string-similarity");
-
-const jsonParser = bodyParser.json();
-const dbManager = new DBManager();
-// const db = new sqlite3.Database("./server.db", (error) => {
-//     if (error) {
-//         console.log('Could not connect to database', error)
-//     } else {
-//         console.log('Connected to database')
-//     }
-// })
-
-// const getNumberName = (req, res, next) => {
-//     db.get("SELECT number_name FROM username", (error, result) => {
-//         if (error) {
-//             return res.status(200).json({
-//                 success: false,
-//                 error: error
-//             });
-//         }
-//         else {
-//             req.number_name = result.number_name
-//             return next()
-//         }
-//     })
-// }
-
+let docClient = new AWS.DynamoDB.DocumentClient();
 const getNumberName = (req, res, next) => {
-    req.number_name = dbManager.read().number_name;
-    return next();
+    let params = {
+        TableName: "users",
+        Key: {
+            "id": "0"
+        }
+    };
+
+    docClient.get(params, function(err, data) {
+        if (err) {
+            console.log("users::getNumberName::error - " + JSON.stringify(err, null, 2))
+        }
+        else {
+            req.number_name = data.Item.number_name
+            return next()
+        }
+    })
 }
 
 const app = express();
@@ -83,9 +47,8 @@ const listname = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]], {
     return items[0].trim()
 });
 
-dotenv.config()
 
-app.get('/',function(req,res){
+app.get('/',function(req, res){
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
@@ -135,19 +98,24 @@ io.on("connection", function(socket)
             console.log('Socket succesfully disconnected with id: ' + socket.id);
         });
 		socket.on('search', function(msg) {
-            // const sql = `UPDATE username
-            //              SET number_name = ?`;
-            // db.run(sql, [msg + 1], function(err) {
-            //     if (err) {
-            //         return console.error(err.message);
-            //     }
-            //     else {
-            //         io.emit("disfuse", msg + 1);
-            //     }
-            // })
-            // const value = dbManager.update(msg + 1);
-            dbManager.update(msg + 1);
-            io.emit("disfuse", msg+1);
+            var params = {
+                TableName: "users",
+                Key: {
+                    "id": "0"
+                },
+                UpdateExpression: "set number_name = :nn",
+                ExpressionAttributeValues:{
+                    ":nn": msg + 1,
+                },
+                ReturnValues:"UPDATED_NEW"
+            };
+            docClient.update(params, function(err, data) {
+                if (err) {
+                    console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+                } else {
+                    io.emit("disfuse", msg + 1);
+                }
+            });  
         });
 	}
 );
