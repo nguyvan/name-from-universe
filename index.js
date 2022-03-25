@@ -154,7 +154,7 @@ io.on("connection", function(socket)
 
 app.post("/")
 
-server.listen(process.env.PORT, process.env.HOST, function(){
+server.listen(process.env.PORT, function(){
     console.log(`Api up and running at: http://${process.env.HOST}:${process.env.PORT}`);
 });
 
