@@ -6,7 +6,7 @@ $(document).ready(function() {
     let i = 0;
     var number = 0;
     // var socket = io("https://name-from-the-multiverse.herokuapp.com");
-    fetch('http://localhost:5000/number', {
+    fetch('https://name-from-the-multiverse.herokuapp.com/number', {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -73,7 +73,7 @@ $(document).ready(function() {
 
         document.getElementById("button-search").addEventListener("click", function() {
             let first_name = document.getElementById("first-name").value;
-            fetch('http://localhost:5000/find', {
+            fetch('https://name-from-the-multiverse.herokuapp.com/find', {
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 mode: 'cors', // no-cors, *cors, same-origin
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -115,7 +115,7 @@ $(document).ready(function() {
     
         document.getElementById("first-name").addEventListener("keypress", function(event){
             if (event.key === "Enter") {
-                fetch('http://localhost:5000/find', {
+                fetch('https://name-from-the-multiverse.herokuapp.com/find', {
                     method: 'POST', // *GET, POST, PUT, DELETE, etc.
                     mode: 'cors', // no-cors, *cors, same-origin
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
