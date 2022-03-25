@@ -64,27 +64,60 @@ app.get('/number', getNumberName, function(req, res) {
 app.post('/find', jsonParser, function(req, res){
     let req_body = req.body;
     let name = req_body.name;
-    if (listname.map((value)=>value.toLowerCase()).includes(name.toLowerCase())) {
-        return res.status(200).json({
-            success: true,
-            name: name
-        });
-    }
-    else {
-        let argstr = listname[0];
-        let max = stringSimilarity.compareTwoStrings(name.toLowerCase(), listname[0].toLowerCase());
-        listname.forEach((n) => {
-            if (stringSimilarity.compareTwoStrings(name.toLowerCase(), n.toLowerCase()) > max) {
-                max = stringSimilarity.compareTwoStrings(name.toLowerCase(), n.toLowerCase())
-                argstr = n
-            }
-        })
-        
-        return res.status(200).json({
-            success: false,
-            name: argstr
-        });
-    }
+    let params = {
+        TableName: "users",
+        Key: {
+            "id": "0"
+        },
+        UpdateExpression: "set number_name = number_name + :p",
+        ExpressionAttributeValues: {
+            ":p": 1
+        },
+        ReturnValues:"UPDATED_NEW"
+    };
+    docClient.update(params, function(err, data) {
+        if (err) {
+            console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+        } else {
+            let newparams = {
+                TableName: "users",
+                Key: {
+                    "id": "0"
+                }
+            };
+            docClient.get(newparams, function(err, data) {
+                if (err) {
+                    console.log("users::getNumberName::error - " + JSON.stringify(err, null, 2))
+                }
+                else {
+                    let number_name = data.Item.number_name
+                    if (listname.map((value)=>value.toLowerCase()).includes(name.toLowerCase())) {
+                        return res.status(200).json({
+                            success: true,
+                            name: name,
+                            number_name: number_name
+                        });
+                    }
+                    else {
+                        let argstr = listname[0];
+                        let max = stringSimilarity.compareTwoStrings(name.toLowerCase(), listname[0].toLowerCase());
+                        listname.forEach((n) => {
+                            if (stringSimilarity.compareTwoStrings(name.toLowerCase(), n.toLowerCase()) > max) {
+                                max = stringSimilarity.compareTwoStrings(name.toLowerCase(), n.toLowerCase())
+                                argstr = n
+                            }
+                        })
+                        return res.status(200).json({
+                            success: false,
+                            name: argstr,
+                            number_name: number_name
+                        });
+                    }
+                }
+            })
+        }
+    });  
+    
 })
 
 
@@ -105,10 +138,7 @@ io.on("connection", function(socket)
                 Key: {
                     "id": "0"
                 },
-                UpdateExpression: "set number_name = :nn",
-                ExpressionAttributeValues:{
-                    ":nn": msg + 1,
-                },
+                UpdateExpression: "set number_name = number_name + 1",
                 ReturnValues:"UPDATED_NEW"
             };
             docClient.update(params, function(err, data) {
@@ -122,7 +152,9 @@ io.on("connection", function(socket)
 	}
 );
 
-server.listen(process.env.PORT, function(){
+app.post("/")
+
+server.listen(process.env.PORT, process.env.HOST, function(){
     console.log(`Api up and running at: http://${process.env.HOST}:${process.env.PORT}`);
 });
 

@@ -5,8 +5,8 @@ $(document).ready(function() {
     let interval = 0.0001;
     let i = 0;
     var number = 0;
-    var socket = io("https://name-from-the-multiverse.herokuapp.com");
-    fetch('https://name-from-the-multiverse.herokuapp.com/number', {
+    // var socket = io("https://name-from-the-multiverse.herokuapp.com");
+    fetch('http://localhost:5000/number', {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -53,27 +53,27 @@ $(document).ready(function() {
     })
 
     setTimeout(() => {
-        socket.on("disfuse", function(msg) {
-            number = parseInt(JSON.stringify(msg));
-            let l = number.toString();
-            let s = l.split("").reverse().join("").match(/.{1,3}/g)
-            let str = ""
-            s.map((item) => {
-                let temp = item.split("").reverse().join("")
-                if (temp.length === 1) {
-                    temp = "00" + temp
-                }
-                else if (temp.length == 2) {
-                    temp = "0" + temp
-                }
-                str = temp + "   " + str
-            })
-            document.getElementById("number-item").textContent = str
-        })
+        // socket.on("disfuse", function(msg) {
+        //     number = parseInt(JSON.stringify(msg));
+        //     let l = number.toString();
+        //     let s = l.split("").reverse().join("").match(/.{1,3}/g)
+        //     let str = ""
+        //     s.map((item) => {
+        //         let temp = item.split("").reverse().join("")
+        //         if (temp.length === 1) {
+        //             temp = "00" + temp
+        //         }
+        //         else if (temp.length == 2) {
+        //             temp = "0" + temp
+        //         }
+        //         str = temp + "   " + str
+        //     })
+        //     document.getElementById("number-item").textContent = str
+        // })
 
         document.getElementById("button-search").addEventListener("click", function() {
             let first_name = document.getElementById("first-name").value;
-            fetch('https://name-from-the-multiverse.herokuapp.com/find', {
+            fetch('http://localhost:5000/find', {
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 mode: 'cors', // no-cors, *cors, same-origin
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -96,13 +96,26 @@ $(document).ready(function() {
                     document.getElementById("bottom-result-2").innerHTML = "Your alternative first name will be : "
                     document.getElementById("bottom-result-3").innerHTML = data.name
                 }
-                socket.emit("search", number);
+                let l = data.number_name.toString();
+                let s = l.split("").reverse().join("").match(/.{1,3}/g)
+                let str = ""
+                s.map((item) => {
+                    let temp = item.split("").reverse().join("")
+                    if (temp.length === 1) {
+                        temp = "00" + temp
+                    }
+                    else if (temp.length == 2) {
+                        temp = "0" + temp
+                    }
+                    str = temp + "   " + str
+                })
+                document.getElementById("number-item").textContent = str
             }).catch(error => console.log(error))
         }) 
     
         document.getElementById("first-name").addEventListener("keypress", function(event){
             if (event.key === "Enter") {
-                fetch('https://name-from-the-multiverse.herokuapp.com/find', {
+                fetch('http://localhost:5000/find', {
                     method: 'POST', // *GET, POST, PUT, DELETE, etc.
                     mode: 'cors', // no-cors, *cors, same-origin
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -125,7 +138,20 @@ $(document).ready(function() {
                         document.getElementById("bottom-result-2").innerHTML = "Your alternative first name will be : "
                         document.getElementById("bottom-result-3").innerHTML = data.name
                     }
-                    socket.emit("search", number);
+                    let l = data.number_name.toString();
+                    let s = l.split("").reverse().join("").match(/.{1,3}/g)
+                    let str = ""
+                    s.map((item) => {
+                        let temp = item.split("").reverse().join("")
+                        if (temp.length === 1) {
+                            temp = "00" + temp
+                        }
+                        else if (temp.length == 2) {
+                            temp = "0" + temp
+                        }
+                        str = temp + "   " + str
+                    })
+                    document.getElementById("number-item").textContent = str
                 }).catch(error => console.log(error))
             }
         })
