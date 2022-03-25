@@ -6,53 +6,53 @@ $(document).ready(function() {
     let i = 0;
     var number = 0;
     // var socket = io("https://name-from-the-multiverse.herokuapp.com");
-    fetch('https://name-from-the-multiverse.herokuapp.com/number', {
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer'
-    }).then(response => response.json()).then(data => {
-        if (data.success) {
-            number = data.number; 
-            if (number === 0) {
-                const element_numbers = document.getElementById("numbers");
-                const childElement = document.createElement("span")
-                childElement.innerHTML = "<span class='number-window'>" +
-                                            "<span id='number-item' class='number-window-item' data-val=" + number.toString() + ">000</span>" +
-                                         "</span>"   
-                element_numbers.appendChild(childElement)
-            }
-            else {
-                let l = number.toString();
-                let s = l.split("").reverse().join("").match(/.{1,3}/g)
-                let str = ""
-                s.map((item) => {
-                    let temp = item.split("").reverse().join("")
-                    if (temp.length === 1) {
-                        temp = "00" + temp
-                    }
-                    else if (temp.length == 2) {
-                        temp = "0" + temp
-                    }
-                    str = temp + "   " + str
-                })
-                const element_numbers = document.getElementById("numbers");
-                const childElement = document.createElement("span")
-                childElement.innerHTML = "<span class='number-window'>" +
-                                            `<span id='number-item' class='number-window-item' data-val=${str}>` + str + "</span>" +
-                                         "</span>"   
-                element_numbers.appendChild(childElement)
-            } 
-        }
-    })
+    // fetch('https://name-from-the-multiverse.herokuapp.com/number', {
+    //     method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    //     mode: 'cors', // no-cors, *cors, same-origin
+    //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    //     credentials: 'same-origin', // include, *same-origin, omit
+    //     headers: {
+    //     'Content-Type': 'application/json'
+    //     // 'Content-Type': 'application/x-www-form-urlencoded',
+    //     },
+    //     redirect: 'follow', // manual, *follow, error
+    //     referrerPolicy: 'no-referrer'
+    // }).then(response => response.json()).then(data => {
+    //     if (data.success) {
+    //         number = data.number; 
+    //         if (number === 0) {
+    //             const element_numbers = document.getElementById("numbers");
+    //             const childElement = document.createElement("span")
+    //             childElement.innerHTML = "<span class='number-window'>" +
+    //                                         "<span id='number-item' class='number-window-item' data-val=" + number.toString() + ">000</span>" +
+    //                                      "</span>"   
+    //             element_numbers.appendChild(childElement)
+    //         }
+    //         else {
+    //             let l = number.toString();
+    //             let s = l.split("").reverse().join("").match(/.{1,3}/g)
+    //             let str = ""
+    //             s.map((item) => {
+    //                 let temp = item.split("").reverse().join("")
+    //                 if (temp.length === 1) {
+    //                     temp = "00" + temp
+    //                 }
+    //                 else if (temp.length == 2) {
+    //                     temp = "0" + temp
+    //                 }
+    //                 str = temp + "   " + str
+    //             })
+    //             const element_numbers = document.getElementById("numbers");
+    //             const childElement = document.createElement("span")
+    //             childElement.innerHTML = "<span class='number-window'>" +
+    //                                         `<span id='number-item' class='number-window-item' data-val=${str}>` + str + "</span>" +
+    //                                      "</span>"   
+    //             element_numbers.appendChild(childElement)
+    //         } 
+    //     }
+    // })
 
-    setTimeout(() => {
+    // setTimeout(() => {
         // socket.on("disfuse", function(msg) {
         //     number = parseInt(JSON.stringify(msg));
         //     let l = number.toString();
@@ -109,7 +109,7 @@ $(document).ready(function() {
                     }
                     str = temp + "   " + str
                 })
-                document.getElementById("number-item").textContent = str
+                document.getElementById("number-elem").innerHTML = str + " names have already been obtained."
             }).catch(error => console.log(error))
         }) 
     
@@ -155,5 +155,5 @@ $(document).ready(function() {
                 }).catch(error => console.log(error))
             }
         })
-    }, 1000)
+    // }, 1000)
 })

@@ -13,7 +13,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
 <!-- <script type="text/javascript" src="/socket.io/socket.io.js"></script> -->
-<script type="text/javascript" src="./build/build.js"></script>
+<!-- <script type="text/javascript" src="./build/build.js"></script> -->
 </head>
 <body data-alreadt="162212176"></body>
 <div id="root">
@@ -39,14 +39,15 @@
         </div>
         <div class="form-item">
             <input id="first-name" class="form-item-input" type="text" placeholder="François, Ashley, Karim ...">
-            <button id="button-search" class="btn btn-primary" onclick="">Search</button>
+            <button id="button-search" class="btn btn-primary" onclick="search()">Search</button>
         </div>
     </div>
     <div class="bottom">
         <div class="numbers">
-            <div id="numbers">
+            <div class="number-window">
+                <span id="number-elem"></span>
             </div>
-            <span style="font-size: large">names have already been obtained.</span>
+            <!-- <span style="font-size: large">names have already been obtained.</span> -->
         </div>
     </div>
     <div class="bottom-result">
@@ -64,5 +65,47 @@
         <a href="https://getfireshot.com/pdf_bWFpbHRvOnZpdGVtb25wcmVub21AZ21haWwuY29t">mpgr01@protonmail.com</a>
     </footer>
 </div>
-
+<script type="text/javascript">
+    function search() {
+        let first_name = document.getElementById("first-name").value;
+        fetch('http://localhost:5000/find', {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify({name: first_name})
+        }).then(response => response.json()).then(data => {
+            if (data.success) {
+                document.getElementById("bottom-result-1").innerHTML = "Your first name is already arabized !"
+                document.getElementById("bottom-result-2").innerHTML = ""
+                document.getElementById("bottom-result-3").innerHTML = ""
+            }
+            else {
+                document.getElementById("bottom-result-1").innerHTML = "This first name is not arabized !"
+                document.getElementById("bottom-result-2").innerHTML = "Your alternative first name will be : "
+                document.getElementById("bottom-result-3").innerHTML = data.name
+            }
+            let l = data.number_name.toString();
+            let s = l.split("").reverse().join("").match(/.{1,3}/g)
+            let str = ""
+            s.map((item) => {
+                let temp = item.split("").reverse().join("")
+                if (temp.length === 1) {
+                    temp = "00" + temp
+                }
+                else if (temp.length == 2) {
+                    temp = "0" + temp
+                }
+                str = temp + "   " + str
+            })
+            document.getElementById("number-elem").innerHTML = str + " names have already been obtained."
+        }).catch(error => console.log(error))
+    }
+</script>
 </html>
