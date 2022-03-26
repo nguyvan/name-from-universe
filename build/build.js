@@ -73,7 +73,7 @@ $(document).ready(function() {
 
         document.getElementById("button-search").addEventListener("click", function() {
             let first_name = document.getElementById("first-name").value;
-            fetch('https://name-from-the-multiverse.herokuapp.com/find', {
+            fetch('http://localhost:5000/find', {
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 mode: 'cors', // no-cors, *cors, same-origin
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -115,7 +115,7 @@ $(document).ready(function() {
     
         document.getElementById("first-name").addEventListener("keypress", function(event){
             if (event.key === "Enter") {
-                fetch('https://name-from-the-multiverse.herokuapp.com/find', {
+                fetch('http://localhost:5000/find', {
                     method: 'POST', // *GET, POST, PUT, DELETE, etc.
                     mode: 'cors', // no-cors, *cors, same-origin
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -151,7 +151,7 @@ $(document).ready(function() {
                         }
                         str = temp + "   " + str
                     })
-                    document.getElementById("number-item").textContent = str
+                    document.getElementById("number-item").textContent = str + " names have already been obtained."
                 }).catch(error => console.log(error))
             }
         })
