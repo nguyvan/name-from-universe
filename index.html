@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -11,16 +11,11 @@
 <script type="text/javascript" src="http://cdn.grapecity.com/spreadjs/hosted/scripts/gc.spread.sheets.all.14.1.1.min.js"></script>
 <script type="text/javascript" src="http://cdn.grapecity.com/spreadjs/hosted/scripts/interop/gc.spread.excelio.14.1.1.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script> -->
-
-<!-- Matomo Image Tracker-->
-<!-- <img referrerpolicy="no-referrer-when-downgrade" src="https://namefromthemultiverse.matomo.cloud/matomo.php?idsite=1&amp;rec=1&dimension1=JSdisabled" style="border:0" alt="" /> -->
-<!-- End Matomo -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
   
-  
-<!-- <script type="text/javascript" src="/socket.io/socket.io.js"></script> -->
-<!-- <script type="text/javascript" src="./build/build.js"></script> -->
-<!-- </head>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="./build/build.js"></script>
+</head>
 <body data-alreadt="162212176">
 </body>
 
@@ -47,134 +42,14 @@
         </div>
         <div class="form-item">
             <input id="first-name" class="form-item-input" type="text" placeholder="François, Ashley, Karim ...">
-            <button id="button-search" class="btn btn-primary" onclick="search()">Search</button>
-        </div>
-    </div>
-    <div class="bottom"> -->
-        <!-- <div class="numbers">
-            <span class="number-window">
-                <span class="number-window-item" data-val="161">000</span>
-            </span>
-            <span class="number-window">
-                <span class="number-window-item" data-val="781">000</span>
-            </span>
-            <span class="number-window">
-                <span class="number-window-item" data-val="590">000</span>
-            </span>
-            <span style="font-size: large">names have already been obtained.</span>
-        </div> -->
-    <!-- </div>
-    <div class="bottom-result">
-        <span id="bottom-result-1"></span>
-        <div class="bottom-result-item">
-            <div>
-                <span id="bottom-result-2"></span>
-            </div>
-            <div>
-                <span id="bottom-result-3"></span>
-            </div>
-        </div>
-    </div>
-    <footer class="footer">
-        <a href="https://getfireshot.com/pdf_bWFpbHRvOnZpdGVtb25wcmVub21AZ21haWwuY29t">mpgr01@protonmail.com</a>
-    </footer>
-</div>
-<script type="text/javascript">
-    let valueDisplays = document.querySelectorAll(".number-window-item");
-    let interval = 0.01;
-    let i = 0;
-
-    valueDisplays.forEach((valueDisplay) => {
-        let startValue = 0;
-        let endValue = parseInt(valueDisplay.getAttribute("data-val"));
-        let duration = Math.floor(interval / endValue);
-        let counter = setInterval(function(){
-            startValue += 1;
-            valueDisplay.textContent = startValue;
-            if (startValue == endValue) {
-                clearInterval(counter);
-            }
-        }, duration);
-    });
-    function search() {
-        let first_name = document.getElementById("first-name").value;
-        fetch('https://name-from-the-multiverse.herokuapp.com/find', {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-            'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer',
-            body: JSON.stringify({name: first_name})
-        }).then(response => response.json()).then(data => {
-            if (data.success) {
-                document.getElementById("bottom-result-1").innerHTML = "Your first name is already arabized !"
-                document.getElementById("bottom-result-2").innerHTML = ""
-                document.getElementById("bottom-result-3").innerHTML = ""
-            }
-            else {
-                document.getElementById("bottom-result-1").innerHTML = "This first name is not arabized !"
-                document.getElementById("bottom-result-2").innerHTML = "Your alternative first name will be : "
-                document.getElementById("bottom-result-3").innerHTML = data.name
-            }
-        }).catch(error => console.log(error))
-    }
-</script>
-</html> -->
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8" />
-<link rel="stylesheet" href="./build/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="./build/static/css/style.css">
-<script type="text/javascript" src="./build/static/js/bootstrap.js"></script>
-<script type="text/javascript" src="./build/static/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./build/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="http://cdn.grapecity.com/spreadjs/hosted/scripts/gc.spread.sheets.all.14.1.1.min.js"></script>
-<script type="text/javascript" src="http://cdn.grapecity.com/spreadjs/hosted/scripts/interop/gc.spread.excelio.14.1.1.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
-<script type="text/javascript" src="./build/build.js"></script>
-<script async src="//static.getclicky.com/101359629.js"></script>
-<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101359626ns.gif"/></p></noscript>
-<!-- <script async src="//static.getclicky.com/101359686.js"></script>
-<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101359686ns.gif" /></p></noscript> -->
-</head>
-<body data-alreadt="162212176"></body>
-<div id="root">
-    <div class="header">
-        <div class="header-item">
-            <img class="header-item-image" id="logo" src="./build/static/img/names_from_the_multiverse_logo.png" alt="logo" class="rounded float-left">
-        </div>
-        <div class="header-item">
-            <span class="header-item-text">Names from the multiverse</span>
-        </div>
-    </div>
-    <div class="body">
-        <div class="body-text">
-            <span class="body-text-item">In an alternative universe, the Western</span>
-            <span class="body-text-item">world is substituted by the Arab world</span>
-            <span class="body-text-item" style="color: #5561d9">Type here to discover your new</span>
-            <span class="body-text-item" style="color: #5561d9">arabized name !</span>
-        </div>
-    </div>
-    <div class="form">
-        <div class="form-item">
-            <span class="form-item-label">Current first name : </span>
-        </div>
-        <div class="form-item">
-            <input id="first-name" class="form-item-input" type="text" placeholder="François, Ashley, Karim, ...">
-            <button id="button-search" class="btn btn-primary" onclick="">Search</button>
+            <button id="button-search" class="btn btn-primary">Search</button>
         </div>
     </div>
     <div class="bottom">
-        <!-- <div class="numbers">
-            <span class="number-window">
+        <div class="numbers">
+            <div id="numbers">
+            </div>
+            <!-- <span class="number-window">
                 <span class="number-window-item" data-val="161">000</span>
             </span>
             <span class="number-window">
@@ -182,9 +57,9 @@
             </span>
             <span class="number-window">
                 <span class="number-window-item" data-val="590">000</span>
-            </span>
+            </span> -->
             <span style="font-size: large">names have already been obtained.</span>
-        </div> -->
+        </div> 
     </div>
     <div class="bottom-result">
         <span id="bottom-result-1"></span>
@@ -201,5 +76,5 @@
         <a href="https://getfireshot.com/pdf_bWFpbHRvOnZpdGVtb25wcmVub21AZ21haWwuY29t">mpgr01@protonmail.com</a>
     </footer>
 </div>
-
 </html>
+
